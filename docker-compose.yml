@@ -6,6 +6,7 @@ services:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__LOGGING__BASE_LOG_FOLDER=/opt/airflow/logs
     volumes:
       - ./dags:/opt/airflow/dags
       - ./etl:/opt/airflow/etl
@@ -15,7 +16,7 @@ services:
     ports:
       - "8080:8080"
     command: >
-      bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com && airflow webserver & airflow scheduler"
+      bash -c "mkdir -p /opt/airflow/logs && airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com && airflow webserver & airflow scheduler"
 
 volumes:
   airflow_db:
